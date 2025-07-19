@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Task Assigner - Home</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <span class="brand">AI_TASK_ASSIGNER</span>
+      <ul class="nav-links">
+        <li><a href="/static/index.html">Home</a></li>
+        <li><a href="/static/employees.html">Employees</a></li>
+        <li><a href="/static/tasks.html">Tasks</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-section">
+    <div class="hero">
+      <h1>Welcome to AI Task Assigner</h1>
+      <p>Automatically assign tasks to the best-fit employee using AI or rule-based logic.</p>
+      <div class="cta">
+        <a href="/static/employees.html" class="btn">Manage Employees</a>
+      </div>
+    </div>
+
+    <section class="assign-section">
+      <h2>Assign a Task</h2>
+      <form id="taskForm">
+        <input type="text" id="title" placeholder="Enter Task Title" required />
+        <select id="method">
+          <option value="ai">AI Agent</option>
+          <option value="rule">Rule-Based</option>
+        </select>
+        <button type="submit">Assign</button>
+      </form>
+      <div id="result" class="result-box"></div>
+    </section>
+  </main>
+
+  <script src="/static/scripts/common.js"></script>
+  <script>
+    document.getElementById("taskForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const title = document.getElementById("title").value;
+      const method = document.getElementById("method").value;
+      const taskData = { title };
+
+      const res = await fetch(`/assign-task/${method}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskData)
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerHTML = `<div class="card">
+        <strong>Method:</strong> ${data.method || "-"}<br>
+        <strong>Assigned to:</strong> ${data.assigned_to || data.best_fits || "None"}<br>
+        <strong>Details:</strong> ${data.result || "No additional explanation."}
+      </div>`;
+      document.getElementById("taskForm").reset();
+    });
+  </script>
+</body>
+</html>
