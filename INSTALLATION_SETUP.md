@@ -68,7 +68,7 @@ AI\_TASK\_ASSIGNER/
 
 ------------------------
 
-git clone https://github.com/your-username/AI\_TASK\_ASSIGNER.git
+[git clone https://github.com/your-username/AI\_TASK\_ASSIGNER.git](https://github.com/mhmd-777/AI_Task_Assigner.git)
 
 
 
